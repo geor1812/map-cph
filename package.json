@@ -1,0 +1,33 @@
+{
+  "name": "map-cph",
+  "version": "0.0.1",
+  "description": "Exam Project for the Node.js elective at KEA. An interactive map of Copenhagen to discover and discuss interesting places around the city.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "start-dev": "cross-env PORT=3000 nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geor1812/map-cph.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Express",
+    "Leaflet",
+    "Sockets.io"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geor1812/map-cph/issues"
+  },
+  "homepage": "https://github.com/geor1812/map-cph#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "cross-env": "7.0.3"
+  }
+}
