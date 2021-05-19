@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/mapapp", {useUnifiedTopology: true, useNewUrlParser: true});
+mongoose.connect(process.env.DB_URL, {useUnifiedTopology: true, useNewUrlParser: true});
 const db = mongoose.connection;
 
 db.on('error', (error) => {
