@@ -1,5 +1,16 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost:27017/mapapp", {useUnifiedTopology: true, useNewUrlParser: true});
+const db = mongoose.connection;
+
+db.on('error', (error) => {
+    console.log(error);
+});
+db.on('open', () => {
+    console.log("Connected to database");
+});
 
 app.use(express.json());
 app.use(express.static(__dirname + "/public"));
