@@ -72,25 +72,42 @@ var hotspotsIcon = L.icon({
     const response = await fetch("/api/locations");
     const result = await response.json();
 
+    //Creating groups
+    const drinksGroup = L.layerGroup();
+    const venuesGroup = L.layerGroup();
+    const parksGroup = L.layerGroup();
+    const culturalGroup = L.layerGroup();
+    const hotspotsGroup = L.layerGroup();
 
+    //Mapping each location to a marker & adding to group
     result.data.map(location => {
         let marker;
         if(location.type == "drinks") {
-            marker = L.marker(location.latLong, {icon: drinksIcon});
+            marker = L.marker(location.latLong, {icon: drinksIcon}).bindPopup(location.name);
+            drinksGroup.addLayer(marker);
         }
         if(location.type == "venues") {
-            marker = L.marker(location.latLong, {icon: venuesIcon});
+            marker = L.marker(location.latLong, {icon: venuesIcon}).bindPopup(location.name);
+            venuesGroup.addLayer(marker);
         }
         if(location.type == "parks") {
-            marker = L.marker(location.latLong, {icon: parksIcon});
+            marker = L.marker(location.latLong, {icon: parksIcon}).bindPopup(location.name);
+            parksGroup.addLayer(marker);
         }
         if(location.type == "cultural") {
-            marker = L.marker(location.latLong, {icon: culturalIcon});
+            marker = L.marker(location.latLong, {icon: culturalIcon}).bindPopup(location.name);
+            culturalGroup.addLayer(marker);
         }
         if(location.type == "hotspots") {
-            marker = L.marker(location.latLong, {icon: hotspotsIcon});
+            marker = L.marker(location.latLong, {icon: hotspotsIcon}).bindPopup(location.name);
+            hotspotsGroup.addLayer(marker);
         }
-        marker.bindPopup(location.name).addTo(map);
+
+        drinksGroup.addTo(map);
+        venuesGroup.addTo(map);
+        parksGroup.addTo(map);
+        culturalGroup.addTo(map);
+        hotspotsGroup.addTo(map);
     });
 })();
 
