@@ -15,6 +15,9 @@ db.on('open', () => {
 app.use(express.json());
 app.use(express.static(__dirname + "/public"));
 
+const locationsRouter = require("./routes/locations.js");
+app.use(locationsRouter.router);
+
 //const fs = require('fs');
 //const home = fs.readFileSync(__dirname + "/public/home/home.html", "utf-8");
 
