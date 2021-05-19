@@ -10,3 +10,33 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     accessToken: "pk.eyJ1IjoiZ2VvcjE4MTIiLCJhIjoiY2tvdTl2cGV5MGpjdTJwb2Fpa3QydjhpdCJ9.vsIf2CpJ_gXMFp_n4EHNzw"
 }).addTo(map);
+
+//Fetching locations
+(async function getLocations() {
+    const response = await fetch("/api/locations");
+    const result = await response.json();
+
+    //let drinks, venues, parks, cultural, hotspots;
+
+    result.data.map(location => {
+        const marker = L.marker(location.latLong).bindPopup(location.name).addTo(map);
+
+        /*if(location.type == "drinks") {
+            drinks.push(location.latLong);
+        }
+        if(location.type == "venues") {
+            venues.push(location.latLong);
+        }
+        if(location.type == "parks") {
+            parks.push(location.latLong);
+        }
+        if(location.type == "cultural") {
+            cultural.push(location.latLong);
+        }
+        if(location.type == "hotspots") {
+            hotspots.push(location.latLong);
+        }*/
+    });
+})();
+
+

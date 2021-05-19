@@ -14,11 +14,33 @@
         integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
         crossorigin=""></script>
     
+    <script language="javascript" src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/home/home.css">    
 
 </head>
 <body>
-    <div id = "map"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col p-0" id="sidebar">
+                <div class="row">
+                    <div class="col bg-info">
+                        <p>LOGO</p>
+                    </div>
+                    <div class="col bg-info">
+                        <p>Settings(maybe info as well)</p>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="col p-0">
+                <div id = "map"></div>
+            </div>
+        </div>
+    </div>
+    
 
     <script src="/home/map.js"></script>
 </body>

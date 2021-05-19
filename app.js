@@ -15,6 +15,7 @@ db.on('open', () => {
 
 app.use(express.json());
 app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/node_modules/bootstrap/dist"));
 
 const locationsRouter = require("./routes/locations.js");
 app.use(locationsRouter.router);
