@@ -6,3 +6,9 @@
 #sidebar {
     width:25vw;
 }
+
+.scroll-please {
+    height: 100vh;
+    overflow: hidden;
+    overflow-y: scroll;
+}

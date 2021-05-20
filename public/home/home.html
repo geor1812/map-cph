@@ -22,7 +22,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col p-0" id="sidebar">
+            <div class="col p-0 scroll-please" id="sidebar">
                 <div class="row">
                     <div class="col bg-info">
                         <h4 class="p-2"><strong>CPH Map</strong></p>
@@ -33,40 +33,88 @@
                 </div>
                 <div class="row">
                     <div class="col mx-3 my-2">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="drinks">
-                            <label class="form-check-label" for="drinks">
-                              <img src="/home/icons/drinksIcon.png" class="img-fluid ml-3" alt="Drinks icon">  
-                              Drinks
-                            </label>
+                        <div class="row">
+                            <p class="lead">Filter</p>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="drinks">
+                                    <label class="form-check-label" for="drinks">
+                                      <img src="/home/icons/drinksIcon.png" class="img-fluid ml-3" alt="Drinks icon">  
+                                      Drinks
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="venues">
+                                    <label class="form-check-label" for="venues">
+                                        <img src="/home/icons/venuesIcon.png" class="img-fluid ml-3" alt="Venues icon">  
+                                        Venues
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="venues">
-                            <label class="form-check-label" for="venues">
-                                <img src="/home/icons/venuesIcon.png" class="img-fluid ml-3" alt="Venues icon">  
-                                Venues
-                            </label>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="parks">
+                                    <label class="form-check-label" for="parks">
+                                        <img src="/home/icons/parksIcon.png" class="img-fluid ml-3" alt="Parks icon">  
+                                        Parks
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="cultural">
+                                    <label class="form-check-label" for="cultural">
+                                        <img src="/home/icons/culturalIcon.png" class="img-fluid ml-3" alt="Drinks icon">  
+                                        Cultural
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="parks">
-                            <label class="form-check-label" for="parks">
-                                <img src="/home/icons/parksIcon.png" class="img-fluid ml-3" alt="Parks icon">  
-                                Parks
-                            </label>
+                        <div class="row justify-content-center">
+                            <div class="col mx-5 px-5">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="hotspots">
+                                    <label class="form-check-label" for="hotspots">
+                                        <img src="/home/icons/hotspotsIcon.png" class="img-fluid ml-3" alt="Drinks icon">  
+                                        Hotspots
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="cultural">
-                            <label class="form-check-label" for="cultural">
-                                <img src="/home/icons/culturalIcon.png" class="img-fluid ml-3" alt="Drinks icon">  
-                                Cultural
-                            </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <hr>
+                    <div class="col mx-3 my-2">
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <hr>
+                    <div class="col mx-3 my-2">
+                        <div class="row">
+                            <h6>Add a comment</h6>
+                            <form autocomplete="off">
+                                <div class="form-group mb-2">
+                                  <label for="name">Name</label>
+                                  <input autocomplete="off" type="text" class="form-control" id="name" placeholder="Leave empty for anonymous">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="content">Comment</label>
+                                    <textarea class="form-control" id="content" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-info mb-2">Submit</button>
+                            </form>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="hotspots">
-                            <label class="form-check-label" for="hotspots">
-                                <img src="/home/icons/hotspotsIcon.png" class="img-fluid ml-3" alt="Drinks icon">  
-                                Hotspots
-                            </label>
+                        <div class="row mt-2">
+                            <p class="lead">Comments</p>
+                        </div>
+                        <div class="row px-3">
+                            
                         </div>
                     </div>
                 </div>
