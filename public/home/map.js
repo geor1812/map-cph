@@ -16,68 +16,68 @@ var drinksIcon = L.icon({
     iconUrl: "/home/icons/drinksIcon.png",
     shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 
-    iconSize:     [40, 40], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
-    iconAnchor:   [20, 40], // point of the icon which will correspond to marker's location
-    shadowAnchor: [12, 41],  // the same for the shadow
-    popupAnchor:  [1, -34] // point from which the popup should open relative to the iconAnchor
+    iconSize:     [40, 40],
+    shadowSize:   [41, 41], 
+    iconAnchor:   [20, 40], 
+    shadowAnchor: [12, 41], 
+    popupAnchor:  [1, -34]
 });
 
 var venuesIcon = L.icon({
     iconUrl: "/home/icons/venuesIcon.png",
     shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 
-    iconSize:     [40, 40], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
-    iconAnchor:   [20, 40], // point of the icon which will correspond to marker's location
-    shadowAnchor: [12, 41],  // the same for the shadow
-    popupAnchor:  [1, -34] // point from which the popup should open relative to the iconAnchor
+    iconSize:     [40, 40], 
+    shadowSize:   [41, 41], 
+    iconAnchor:   [20, 40], 
+    shadowAnchor: [12, 41],  
+    popupAnchor:  [1, -34] 
 });
 
 var parksIcon = L.icon({
     iconUrl: "/home/icons/parksIcon.png",
     shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 
-    iconSize:     [40, 40], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
-    iconAnchor:   [20, 40], // point of the icon which will correspond to marker's location
-    shadowAnchor: [12, 41],  // the same for the shadow
-    popupAnchor:  [1, -34] // point from which the popup should open relative to the iconAnchor
+    iconSize:     [40, 40], 
+    shadowSize:   [41, 41], 
+    iconAnchor:   [20, 40], 
+    shadowAnchor: [12, 41],  
+    popupAnchor:  [1, -34] 
 });
 
 var culturalIcon = L.icon({
     iconUrl: "/home/icons/culturalIcon.png",
     shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 
-    iconSize:     [40, 40], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
-    iconAnchor:   [20, 40], // point of the icon which will correspond to marker's location
-    shadowAnchor: [12, 41],  // the same for the shadow
-    popupAnchor:  [1, -34] // point from which the popup should open relative to the iconAnchor
+    iconSize:     [40, 40], 
+    shadowSize:   [41, 41], 
+    iconAnchor:   [20, 40], 
+    shadowAnchor: [12, 41], 
+    popupAnchor:  [1, -34] 
 });
 
 var hotspotsIcon = L.icon({
     iconUrl: "/home/icons/hotspotsIcon.png",
     shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
 
-    iconSize:     [40, 40], // size of the icon
-    shadowSize:   [41, 41], // size of the shadow
-    iconAnchor:   [20, 40], // point of the icon which will correspond to marker's location
-    shadowAnchor: [12, 41],  // the same for the shadow
-    popupAnchor:  [1, -34] // point from which the popup should open relative to the iconAnchor
+    iconSize:     [40, 40],
+    shadowSize:   [41, 41], 
+    iconAnchor:   [20, 40], 
+    shadowAnchor: [12, 41],  
+    popupAnchor:  [1, -34] 
 });
+
+//Creating groups
+const drinksGroup = L.layerGroup();
+const venuesGroup = L.layerGroup();
+const parksGroup = L.layerGroup();
+const culturalGroup = L.layerGroup();
+const hotspotsGroup = L.layerGroup();
 
 //Fetching locations
 (async function getLocations() {
     const response = await fetch("/api/locations");
     const result = await response.json();
-
-    //Creating groups
-    const drinksGroup = L.layerGroup();
-    const venuesGroup = L.layerGroup();
-    const parksGroup = L.layerGroup();
-    const culturalGroup = L.layerGroup();
-    const hotspotsGroup = L.layerGroup();
 
     //Mapping each location to a marker & adding to group
     result.data.map(location => {
@@ -110,5 +110,48 @@ var hotspotsIcon = L.icon({
         hotspotsGroup.addTo(map);
     });
 })();
+
+//Methods for switching layers on & off
+drinksSwitch = () => {
+    if (map.hasLayer(drinksGroup)) {
+        map.removeLayer(drinksGroup)
+    } else {
+        map.addLayer(drinksGroup);
+    }
+}
+
+venuesSwitch = () => {
+    if (map.hasLayer(venuesGroup)) {
+        map.removeLayer(venuesGroup)
+    } else {
+        map.addLayer(venuesGroup);
+    }
+}
+
+parksSwitch = () => {
+    if (map.hasLayer(parksGroup)) {
+        map.removeLayer(parksGroup)
+    } else {
+        map.addLayer(parksGroup);
+    }
+}
+
+culturalSwitch = () => {
+    if (map.hasLayer(culturalGroup)) {
+        map.removeLayer(culturalGroup)
+    } else {
+        map.addLayer(culturalGroup);
+    }
+}
+
+hotspotsSwitch = () => {
+    if (map.hasLayer(hotspotsGroup)) {
+        map.removeLayer(hotspotsGroup)
+    } else {
+        map.addLayer(hotspotsGroup);
+    }
+}
+
+
 
 
