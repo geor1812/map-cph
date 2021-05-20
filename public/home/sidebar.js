@@ -102,6 +102,10 @@ displayLocation = (location) => {
     contentInput.className = "form-control";
     contentInput.id = "content";
     contentInput.rows = "3";
+    const submitButton = document.createElement("button");
+    submitButton.type = "submit";
+    submitButton.className = "btn btn-info mb-2";
+    submitButton.innerText = "Submit";
 
     formGroup1.appendChild(nameLabel);
     formGroup1.appendChild(nameInput);
@@ -109,6 +113,7 @@ displayLocation = (location) => {
     formGroup2.appendChild(contentInput);
     form.appendChild(formGroup1);
     form.appendChild(formGroup2);
+    form.appendChild(submitButton);
     addCommentRow.appendChild(addCommentText);
     addCommentRow.appendChild(form);
 
