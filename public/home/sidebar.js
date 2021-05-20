@@ -1,22 +1,3 @@
-drinksCheck = document.getElementById("drinks");
-venuesCheck = document.getElementById("venues");
-parksCheck = document.getElementById("parks");
-culturalCheck = document.getElementById("cultural");
-hotspotsCheck = document.getElementById("hotspots");
-
-//Making sure all checkboxes are checked at page loading
-drinksCheck.checked = true;
-venuesCheck.checked = true;
-parksCheck.checked = true;
-culturalCheck.checked = true;
-hotspotsCheck.checked = true;
-
-drinksCheck.addEventListener("change", drinksSwitch);
-venuesCheck.addEventListener("change", venuesSwitch);
-parksCheck.addEventListener("change", parksSwitch);
-culturalCheck.addEventListener("change", culturalSwitch);
-hotspotsCheck.addEventListener("change", hotspotsSwitch);
-
 /*
 <div class="row">
                     <hr>
@@ -30,7 +11,7 @@ hotspotsCheck.addEventListener("change", hotspotsSwitch);
                     <hr>
                     <div class="col mx-3 my-2">
                         <div class="row">
-                            <h6>Add a comment</h6>
+                            START HERE!! <h6>Add a comment</h6>
                             <form autocomplete="off">
                                 <div class="form-group mb-2">
                                   <label for="name">Name</label>
@@ -41,10 +22,10 @@ hotspotsCheck.addEventListener("change", hotspotsSwitch);
                                     <textarea class="form-control" id="content" rows="3"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-info mb-2">Submit</button>
-                            </form>
+                            END HERE!!</form>
                         </div>
                         <div class="row mt-2">
-                            <p class="lead">Comments</p>
+                            HERE!!<p class="lead">Comments</p>
                         </div>
                         <div class="row px-3">
                             START HERE!!!
@@ -58,25 +39,107 @@ hotspotsCheck.addEventListener("change", hotspotsSwitch);
                                 </div>
                             </div>
                             END HERE!!!
-                            <div class="list-group">
-                                <div class="list-group-item list-group-item-action flex-column align-items-start">
-                                  <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">TestComment666</h5>
-                                    <small>19/5/2021</small>
-                                  </div>
-                                  <p class="mb-1">This is a test comment. How are you today?</p>
-                                </div>
-                            </div>
-                            <div class="list-group">
-                                <div class="list-group-item list-group-item-action flex-column align-items-start">
-                                  <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">TheRambler</h5>
-                                    <small>19/5/2021</small>
-                                  </div>
-                                  <p class="mb-1">I just want to see how it looks if somebody writes a fuckton of text. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
 */
+
+//Dynamically adding location information to the sidebar
+displayLocation = (location) => {
+    const infoRow = document.getElementById("info-row");
+    infoRow.innerHTML = "";
+    const addCommentRow = document.getElementById("add-comment-row");
+    addCommentRow.innerHTML = "";
+    const commRow1 = document.getElementById("comm-row-1");
+    commRow1.innerHTML = "";
+    const commRow2 = document.getElementById("comm-row-2");
+    commRow2.innerHTML = "";
+
+    //Creating & adding name, address, description
+    const name = document.createElement("h4");
+    name.innerText = location.name;
+    const icon = document.createElement("img");
+    icon.src = `/home/icons/${location.type}Icon.png`;
+    icon.className = "img-fluid ml-3";
+    const address = document.createElement("h6");
+    address.className = "text-muted";
+    if(location.address) {
+        address.innerText = location.address;
+    }
+    const description = document.createElement("p");
+    description.className = "mt-4";
+    if(location.description) {
+        description.innerText = location.description;
+    }
+   
+    name.appendChild(icon);
+    infoRow.appendChild(name);
+    infoRow.appendChild(address);
+    infoRow.appendChild(description);
+
+    //Creating & adding the "add comment" section
+    const addCommentText = document.createElement("h6");
+    addCommentText.innerText = "Write your thoughts";
+    const form = document.createElement("form");
+    form.autocomplete = "off";
+    const formGroup1 = document.createElement("div");
+    formGroup1.className = "form-group mb-2";
+    const formGroup2 = document.createElement("div");
+    formGroup2.className = "form-group mb-2";
+    const nameLabel = document.createElement("label");
+    nameLabel.for = "name";
+    nameLabel.innerText = "Name"
+    const nameInput = document.createElement("input");
+    nameInput.autocomplete = "off";
+    nameInput.type = "text";
+    nameInput.className = "form-control";
+    nameInput.id = "name";
+    nameInput.placeholder = "Leave empty for anonymous";
+    const contentLabel = document.createElement("label");
+    contentLabel.for = "content";
+    contentLabel.for = "Comment";
+    const contentInput = document.createElement("textarea");
+    contentInput.className = "form-control";
+    contentInput.id = "content";
+    contentInput.rows = "3";
+
+    formGroup1.appendChild(nameLabel);
+    formGroup1.appendChild(nameInput);
+    formGroup2.appendChild(contentLabel);
+    formGroup2.appendChild(contentInput);
+    form.appendChild(formGroup1);
+    form.appendChild(formGroup2);
+    addCommentRow.appendChild(addCommentText);
+    addCommentRow.appendChild(form);
+
+    //Creating & adding comments section
+    commentsHeader = document.createElement("p");
+    commentsHeader.className = "lead";
+    commentsHeader.innerText = "Comments";
+
+    commRow1.appendChild(commentsHeader);
+
+    location.comments.map(comment => {
+        const listGroup = document.createElement("div");
+        listGroup.className = "list-group";
+        const listGroupItem = document.createElement("div");
+        listGroupItem.className = "list-group-item list-group-item-action flex-column align-items-start";
+        const nameDateDiv = document.createElement("div");
+        nameDateDiv.className = "d-flex w-100 justify-content-between";
+        const name = document.createElement("h5");
+        name.className = "mb-1";
+        name.innerText = comment.name;
+        const date = document.createElement("small");
+        date.innerText = comment.date;
+        const content = document.createElement("p");
+        content.className = "mb-1";
+        content.innerText = comment.content;
+
+        listGroup.appendChild(listGroupItem);
+        listGroupItem.appendChild(nameDateDiv);
+        nameDateDiv.appendChild(name);
+        nameDateDiv.appendChild(date);
+        listGroupItem.appendChild(content);
+        commRow2.appendChild(listGroup);
+    })
+}
