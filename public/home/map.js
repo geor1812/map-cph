@@ -78,44 +78,48 @@ const hotspotsGroup = L.layerGroup();
 
 //Fetching locations
 (async function getLocations() {
-    const response = await fetch("/api/locations");
-    const result = await response.json();
+    try {
+        const response = await fetch("/api/locations");
+        const result = await response.json();
 
-    //Mapping each location to a marker & adding to group
-    result.data.map(location => {
-        onMarkerClick = (e) => {
-            displayLocation(location);
-        }
+        //Mapping each location to a marker & adding to group
+        result.data.map(location => {
+            onMarkerClick = (e) => {
+                displayLocation(location);
+            }
 
-        let marker;
-        if(location.type == "drinks") {
-            marker = L.marker(location.latLong, {icon: drinksIcon}).bindPopup(location.name).on("click", onMarkerClick);
-            drinksGroup.addLayer(marker);
-        }
-        if(location.type == "venues") {
-            marker = L.marker(location.latLong, {icon: venuesIcon}).bindPopup(location.name).on("click", onMarkerClick);
-            venuesGroup.addLayer(marker);
-        }
-        if(location.type == "parks") {
-            marker = L.marker(location.latLong, {icon: parksIcon}).bindPopup(location.name).on("click", onMarkerClick);
-            parksGroup.addLayer(marker);
-        }
-        if(location.type == "cultural") {
-            marker = L.marker(location.latLong, {icon: culturalIcon}).bindPopup(location.name).on("click", onMarkerClick);
-            culturalGroup.addLayer(marker);
-        }
-        if(location.type == "hotspots") {
-            marker = L.marker(location.latLong, {icon: hotspotsIcon}).bindPopup(location.name).on("click", onMarkerClick);
-            hotspotsGroup.addLayer(marker);
-        }
+            let marker;
+            if(location.type == "drinks") {
+                marker = L.marker(location.latLong, {icon: drinksIcon}).bindPopup(location.name).on("click", onMarkerClick);
+                drinksGroup.addLayer(marker);
+            }
+            if(location.type == "venues") {
+                marker = L.marker(location.latLong, {icon: venuesIcon}).bindPopup(location.name).on("click", onMarkerClick);
+                venuesGroup.addLayer(marker);
+            }
+            if(location.type == "parks") {
+                marker = L.marker(location.latLong, {icon: parksIcon}).bindPopup(location.name).on("click", onMarkerClick);
+                parksGroup.addLayer(marker);
+            }
+            if(location.type == "cultural") {
+                marker = L.marker(location.latLong, {icon: culturalIcon}).bindPopup(location.name).on("click", onMarkerClick);
+                culturalGroup.addLayer(marker);
+            }
+            if(location.type == "hotspots") {
+                marker = L.marker(location.latLong, {icon: hotspotsIcon}).bindPopup(location.name).on("click", onMarkerClick);
+                hotspotsGroup.addLayer(marker);
+            }
 
-        //All groups are visible on page load
-        drinksGroup.addTo(map);
-        venuesGroup.addTo(map);
-        parksGroup.addTo(map);
-        culturalGroup.addTo(map);
-        hotspotsGroup.addTo(map);
-    });
+            //All groups are visible on page load
+            drinksGroup.addTo(map);
+            venuesGroup.addTo(map);
+            parksGroup.addTo(map);
+            culturalGroup.addTo(map);
+            hotspotsGroup.addTo(map);
+        });
+    } catch (error) {
+        console.log(error);
+    }
 })();
 
 //Methods for switching layers on & off

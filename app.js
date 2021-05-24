@@ -17,8 +17,15 @@ db.on('open', () => {
     console.log("Connected to database");
 });
 
+app.use(express.json());
+app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/node_modules/bootstrap/dist"));
+
+const locationsRouter = require("./routes/locations.js");
+app.use(locationsRouter.router);
+
 io.on('connection', (socket) => {
-    console.log("new connection");
+    console.log("New connection");
 
     //Listen for message
     socket.on("message", (msg, username) => {
@@ -26,14 +33,7 @@ io.on('connection', (socket) => {
         io.emit("message", msg, username);
     })
 
-})
-
-app.use(express.json());
-app.use(express.static(__dirname + "/public"));
-app.use(express.static(__dirname + "/node_modules/bootstrap/dist"));
-
-const locationsRouter = require("./routes/locations.js");
-app.use(locationsRouter.router);
+});
 
 //const fs = require('fs');
 //const home = fs.readFileSync(__dirname + "/public/home/home.html", "utf-8");

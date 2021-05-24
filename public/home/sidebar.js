@@ -1,51 +1,5 @@
-/*
-<div class="row">
-                    <hr>
-                    <div class="col mx-3 my-2">
-                        HERE!!!<h4>Warpigs Brewpub <img src="/home/icons/drinksIcon.png" class="img-fluid ml-3" alt="Drinks icon"></h4>
-                        HERE!!!<h6 class="text-muted">Flæsketorvet 2, 2100 V</h6>
-                        HERE!!!<p class="mt-4">American brewery 3 Floyds and Danish brewery Mikkeller have built Warpigs from scratch to host top authentic Texas barbecue and American-Danish style brews to Copenhagen and the world. Spacious, laid-back eatery for slow cooked BBQ meats, hearty sides & beers plus patio seating.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <hr>
-                    <div class="col mx-3 my-2">
-                        <div class="row">
-                            START HERE!! <h6>Add a comment</h6>
-                            <form autocomplete="off">
-                                <div class="form-group mb-2">
-                                  <label for="name">Name</label>
-                                  <input autocomplete="off" type="text" class="form-control" id="name" placeholder="Leave empty for anonymous">
-                                </div>
-                                <div class="form-group mb-2">
-                                    <label for="content">Comment</label>
-                                    <textarea class="form-control" id="content" rows="3"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-info mb-2">Submit</button>
-                            END HERE!!</form>
-                        </div>
-                        <div class="row mt-2">
-                            HERE!!<p class="lead">Comments</p>
-                        </div>
-                        <div class="row px-3">
-                            START HERE!!!
-                            <div class="list-group">
-                                <div class="list-group-item list-group-item-action flex-column align-items-start">
-                                  <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">Anon</h5>
-                                    <small>20/5/2021</small>
-                                  </div>
-                                  <p class="mb-1">Good beer but high prices</p>
-                                </div>
-                            </div>
-                            END HERE!!!
-                        </div>
-                    </div>
-                </div>
-*/
-
 //Dynamically adding location information to the sidebar
-
+const socket = io();
 displayLocation = (location) => {
     const infoRow = document.getElementById("info-row");
     infoRow.innerHTML = "";
@@ -83,6 +37,7 @@ displayLocation = (location) => {
     addCommentText.innerText = "Write your thoughts";
     const form = document.createElement("form");
     form.autocomplete = "off";
+    form.id = "comment-form";
     const formGroup1 = document.createElement("div");
     formGroup1.className = "form-group mb-2";
     const formGroup2 = document.createElement("div");
@@ -105,7 +60,7 @@ displayLocation = (location) => {
     contentInput.rows = "3";
     const submitButton = document.createElement("input");
     submitButton.type = "submit";
-    submitButton.className = "form-control";
+    submitButton.className = "btn btn-block btn-info";
     submitButton.id = "submit";
     submitButton.value = "Send";
 
@@ -150,56 +105,20 @@ displayLocation = (location) => {
         listGroupItem.appendChild(content);
         commRow2.appendChild(listGroup);
     })
-
-    //Sending comment to server so it can be sent to other clients
-    const socket = io()
-
+    
     form.addEventListener("submit", (e) => {
         e.preventDefault();
-        const msg = contentInput.value;
-        const username = nameInput.value;
-        if (!username) {
-            username = "Anon"
-        }
-        console.log(msg);
+        let newComment = {};
+        newComment.content = contentInput.value;
+        newComment.name = (nameInput.value) ? nameInput.value : "Anon";
+        newComment.date = new Date().toLocaleDateString();
         contentInput.value  = "";
 
-        socket.emit("message", msg, username)
-    })
-
-    //Displaying comment received from server
-    socket.on("message", (msg, username) => {
-        console.log(msg);
-        outputMessage(msg, username);
-    })
-
-    function outputMessage(msg, username){
-
-        const listGroup = document.querySelector(".list-group");
-        const listGroupItem = document.createElement("div");
-        listGroupItem.className = "list-group-item list-group-item-action flex-column align-items-start";
-        const nameDateDiv = document.createElement("div");
-        nameDateDiv.className = "d-flex w-100 justify-content-between";
-        const name = document.createElement("h5");
-        name.className = "mb-1";
-        name.innerText = username;
-        const date = document.createElement("small");
-        let currentDate = new Date().toLocaleDateString();
-        date.innerText = currentDate;
-        const content = document.createElement("p");
-        content.className = "mb-1";
-        content.innerText = msg;
-
-    
-        listGroup.appendChild(listGroupItem);
-        listGroupItem.appendChild(nameDateDiv);
-        nameDateDiv.appendChild(name);
-        nameDateDiv.appendChild(date);
-        listGroupItem.appendChild(content);
-
+        location.comments.push(newComment);
+        updateComments(location._id, location.comments);
 
         //Sending comment to API
-        let request = new XMLHttpRequest();
+        /*let request = new XMLHttpRequest();
         request.open("PATCH", "http://localhost:3000/api/locations/" + location._id);
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("Content-Type", "application/json");
@@ -208,7 +127,61 @@ displayLocation = (location) => {
                                         "date": "${currentDate}",
                                         "content": "${msg}"
                                     }]
-        }`)
-    }
+        }`);*/
     
+        //socket.emit("message", msg, username)
+    });
 }
+
+async function updateComments(id, comments) {
+    //console.log(comments);
+    try {
+        const otherParams = {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({comments: comments}),
+            method: "PATCH"
+        };
+
+        const response = await fetch(`/api/locations/${id}`, otherParams);
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+/*
+//Displaying comment received from server
+socket.on("message", (msg, username) => {
+    console.log(msg);
+    outputMessage(msg, username);
+});
+
+function outputMessage(msg, username){
+    const listGroup = document.querySelector(".list-group");
+    const listGroupItem = document.createElement("div");
+    listGroupItem.className = "list-group-item list-group-item-action flex-column align-items-start";
+    const nameDateDiv = document.createElement("div");
+    nameDateDiv.className = "d-flex w-100 justify-content-between";
+    const name = document.createElement("h5");
+    name.className = "mb-1";
+    name.innerText = username;
+    const date = document.createElement("small");
+    let currentDate = new Date().toLocaleDateString();
+    date.innerText = currentDate;
+    const content = document.createElement("p");
+    content.className = "mb-1";
+    content.innerText = msg;
+
+
+    listGroup.appendChild(listGroupItem);
+    listGroupItem.appendChild(nameDateDiv);
+    nameDateDiv.appendChild(name);
+    nameDateDiv.appendChild(date);
+    listGroupItem.appendChild(content);
+}
+*/
