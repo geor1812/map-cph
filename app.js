@@ -1,6 +1,10 @@
 require("dotenv").config();
 const express = require("express");
+const http = require("http");
+const socketio = require("socket.io")
 const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 const mongoose = require("mongoose");
 
 mongoose.connect(process.env.DB_URL, {useUnifiedTopology: true, useNewUrlParser: true});
@@ -12,6 +16,17 @@ db.on('error', (error) => {
 db.on('open', () => {
     console.log("Connected to database");
 });
+
+io.on('connection', (socket) => {
+    console.log("new connection");
+
+    //Listen for message
+    socket.on("message", (msg, username) => {
+        console.log(msg);
+        io.emit("message", msg, username);
+    })
+
+})
 
 app.use(express.json());
 app.use(express.static(__dirname + "/public"));
@@ -27,9 +42,10 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/home/home.html");
 });
 
-const server = app.listen(process.env.PORT || 8080, (error) => {
+server.listen(process.env.PORT || 8080, (error) => {
     if(error) {
         console.log(error);
     }
     console.log("The server is running on port", server.address().port);
 });
+

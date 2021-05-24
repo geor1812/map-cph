@@ -45,6 +45,7 @@
 */
 
 //Dynamically adding location information to the sidebar
+
 displayLocation = (location) => {
     const infoRow = document.getElementById("info-row");
     infoRow.innerHTML = "";
@@ -102,6 +103,12 @@ displayLocation = (location) => {
     contentInput.className = "form-control";
     contentInput.id = "content";
     contentInput.rows = "3";
+    const submitButton = document.createElement("input");
+    submitButton.type = "submit";
+    submitButton.className = "form-control";
+    submitButton.id = "submit";
+    submitButton.value = "Send";
+
 
     formGroup1.appendChild(nameLabel);
     formGroup1.appendChild(nameInput);
@@ -109,6 +116,7 @@ displayLocation = (location) => {
     formGroup2.appendChild(contentInput);
     form.appendChild(formGroup1);
     form.appendChild(formGroup2);
+    form.appendChild(submitButton)
     addCommentRow.appendChild(addCommentText);
     addCommentRow.appendChild(form);
 
@@ -142,4 +150,65 @@ displayLocation = (location) => {
         listGroupItem.appendChild(content);
         commRow2.appendChild(listGroup);
     })
+
+    //Sending comment to server so it can be sent to other clients
+    const socket = io()
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const msg = contentInput.value;
+        const username = nameInput.value;
+        if (!username) {
+            username = "Anon"
+        }
+        console.log(msg);
+        contentInput.value  = "";
+
+        socket.emit("message", msg, username)
+    })
+
+    //Displaying comment received from server
+    socket.on("message", (msg, username) => {
+        console.log(msg);
+        outputMessage(msg, username);
+    })
+
+    function outputMessage(msg, username){
+
+        const listGroup = document.querySelector(".list-group");
+        const listGroupItem = document.createElement("div");
+        listGroupItem.className = "list-group-item list-group-item-action flex-column align-items-start";
+        const nameDateDiv = document.createElement("div");
+        nameDateDiv.className = "d-flex w-100 justify-content-between";
+        const name = document.createElement("h5");
+        name.className = "mb-1";
+        name.innerText = username;
+        const date = document.createElement("small");
+        let currentDate = new Date().toLocaleDateString();
+        date.innerText = currentDate;
+        const content = document.createElement("p");
+        content.className = "mb-1";
+        content.innerText = msg;
+
+    
+        listGroup.appendChild(listGroupItem);
+        listGroupItem.appendChild(nameDateDiv);
+        nameDateDiv.appendChild(name);
+        nameDateDiv.appendChild(date);
+        listGroupItem.appendChild(content);
+
+
+        //Sending comment to API
+        let request = new XMLHttpRequest();
+        request.open("PATCH", "http://localhost:3000/api/locations/" + location._id);
+        request.setRequestHeader("Accept", "application/json");
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(`{"comments": [{
+                                        "name": "${username}",
+                                        "date": "${currentDate}",
+                                        "content": "${msg}"
+                                    }]
+        }`)
+    }
+    
 }

@@ -53,7 +53,22 @@ router.patch("/api/locations/:id", getLocation, async (req, res) => {
         res.location.description = req.body.description;
     }
     if(req.body.comments != null) {
-        res.location.comments = req.body.comments;
+        //res.location.comments = req.body.comments;
+        console.log(req.body.comments[0].name);
+        console.log(req.body.comments[0].content);
+        console.log(req.body.comments[0].date);
+        res.location.comments.push(req.body.comments[0])
+        /*
+        let patch = (`
+            [{ "op": "add", "path": "/comments/-", "value": {"name":  "${req.body.comments[0].name}",
+                                                           "content:": "${req.body.comments[0].content}",
+                                                           "date": "${req.body.comments[0].date}"}
+            }]`);
+
+        
+        res.location = jsonpatch.applyPatch(res.location, patch).newDocument;
+        */
+        console.log(res.location)
     }
     try {
         const updatedLocation = await res.location.save();
