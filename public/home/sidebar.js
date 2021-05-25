@@ -65,20 +65,22 @@ async function displayLocation(id) {
     contentInput.className = "form-control";
     contentInput.id = "content";
     contentInput.rows = "3";
-    const submitButton = document.createElement("input");
+    const buttonDiv = document.createElement("div");
+    buttonDiv.className = "d-grid gap-2 col-6 mx-auto";
+    const submitButton = document.createElement("button");
     submitButton.type = "submit";
-    submitButton.className = "btn btn-block btn-info";
+    submitButton.className = "btn btn-info btn-block";
     submitButton.id = "submit";
-    submitButton.value = "Send";
-
+    submitButton.innerText = "Send"
 
     formGroup1.appendChild(nameLabel);
     formGroup1.appendChild(nameInput);
     formGroup2.appendChild(contentLabel);
     formGroup2.appendChild(contentInput);
+    buttonDiv.appendChild(submitButton);
     form.appendChild(formGroup1);
     form.appendChild(formGroup2);
-    form.appendChild(submitButton)
+    form.appendChild(buttonDiv);
     addCommentRow.appendChild(addCommentText);
     addCommentRow.appendChild(form);
 
@@ -122,7 +124,7 @@ async function displayLocation(id) {
         contentInput.value  = "";
 
         location.comments.push(newComment);
-        //Sends a patch request to the API with the new comment
+        //Sends a PATCH request to the API with the new comment added
         updateComments(location._id, location.comments);
         
         socket.emit("submitComment", newComment, location._id);
