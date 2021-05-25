@@ -85,7 +85,7 @@ const hotspotsGroup = L.layerGroup();
         //Mapping each location to a marker & adding to group
         result.data.map(location => {
             onMarkerClick = (e) => {
-                displayLocation(location);
+                displayLocation(location._id);
             }
 
             let marker;

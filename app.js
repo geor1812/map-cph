@@ -25,14 +25,15 @@ const locationsRouter = require("./routes/locations.js");
 app.use(locationsRouter.router);
 
 io.on('connection', (socket) => {
-    console.log("New connection");
+    console.log("A socket has connected");
 
-    //Listen for message
-    socket.on("message", (msg, username) => {
-        console.log(msg);
-        io.emit("message", msg, username);
+    socket.on("submitComment", (comment, id) => {
+        io.emit("displayComment", comment, id);
     })
 
+    socket.on("disconnect", () =>{
+        console.log("A socket has disconnected");
+    });
 });
 
 //const fs = require('fs');

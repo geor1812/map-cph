@@ -1,6 +1,13 @@
 //Dynamically adding location information to the sidebar
 const socket = io();
-displayLocation = (location) => {
+let currentId;
+async function displayLocation(id) {
+    //Fetch location
+    const response = await fetch(`/api/locations/${id}`);
+    const result = await response.json();
+    const location = result.data;
+    currentId = location._id;
+
     const infoRow = document.getElementById("info-row");
     infoRow.innerHTML = "";
     const addCommentRow = document.getElementById("add-comment-row");
@@ -115,26 +122,45 @@ displayLocation = (location) => {
         contentInput.value  = "";
 
         location.comments.push(newComment);
+        //Sends a patch request to the API with the new comment
         updateComments(location._id, location.comments);
-
-        //Sending comment to API
-        /*let request = new XMLHttpRequest();
-        request.open("PATCH", "http://localhost:3000/api/locations/" + location._id);
-        request.setRequestHeader("Accept", "application/json");
-        request.setRequestHeader("Content-Type", "application/json");
-        request.send(`{"comments": [{
-                                        "name": "${username}",
-                                        "date": "${currentDate}",
-                                        "content": "${msg}"
-                                    }]
-        }`);*/
-    
-        //socket.emit("message", msg, username)
+        
+        socket.emit("submitComment", newComment, location._id);
     });
 }
 
+socket.on("displayComment", (comment, id) => {
+    if(currentId === id) {
+        displayComment(comment);
+    }
+});
+
+displayComment = (comment) => {
+    const commRow2 = document.getElementById("comm-row-2");
+    const listGroup = document.createElement("div");
+    listGroup.className = "list-group";
+    const listGroupItem = document.createElement("div");
+    listGroupItem.className = "list-group-item list-group-item-action flex-column align-items-start";
+    const nameDateDiv = document.createElement("div");
+    nameDateDiv.className = "d-flex w-100 justify-content-between";
+    const name = document.createElement("h5");
+    name.className = "mb-1";
+    name.innerText = comment.name;
+    const date = document.createElement("small");
+    date.innerText = comment.date;
+    const content = document.createElement("p");
+    content.className = "mb-1";
+    content.innerText = comment.content;
+
+    listGroup.appendChild(listGroupItem);
+    listGroupItem.appendChild(nameDateDiv);
+    nameDateDiv.appendChild(name);
+    nameDateDiv.appendChild(date);
+    listGroupItem.appendChild(content);
+    commRow2.appendChild(listGroup);
+}
+
 async function updateComments(id, comments) {
-    //console.log(comments);
     try {
         const otherParams = {
             headers: {
@@ -153,35 +179,3 @@ async function updateComments(id, comments) {
     }
 }
 
-
-/*
-//Displaying comment received from server
-socket.on("message", (msg, username) => {
-    console.log(msg);
-    outputMessage(msg, username);
-});
-
-function outputMessage(msg, username){
-    const listGroup = document.querySelector(".list-group");
-    const listGroupItem = document.createElement("div");
-    listGroupItem.className = "list-group-item list-group-item-action flex-column align-items-start";
-    const nameDateDiv = document.createElement("div");
-    nameDateDiv.className = "d-flex w-100 justify-content-between";
-    const name = document.createElement("h5");
-    name.className = "mb-1";
-    name.innerText = username;
-    const date = document.createElement("small");
-    let currentDate = new Date().toLocaleDateString();
-    date.innerText = currentDate;
-    const content = document.createElement("p");
-    content.className = "mb-1";
-    content.innerText = msg;
-
-
-    listGroup.appendChild(listGroupItem);
-    listGroupItem.appendChild(nameDateDiv);
-    nameDateDiv.appendChild(name);
-    nameDateDiv.appendChild(date);
-    listGroupItem.appendChild(content);
-}
-*/
