@@ -1,0 +1,17 @@
+#main-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.side-row {
+    height: 15vh;
+}
+
+.center-row {
+    height: 70vh;
+}
+
+.card {
+    height: 100%;
+    width: 100%;
+}

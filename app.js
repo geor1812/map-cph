@@ -6,6 +6,9 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 const mongoose = require("mongoose");
+const rateLimit = require("express-rate-limit");
+const session = require("express-session");
+const { v4: uuidv4 } = require('uuid');
 
 mongoose.connect(process.env.DB_URL, {useUnifiedTopology: true, useNewUrlParser: true});
 const db = mongoose.connection;
@@ -18,8 +21,26 @@ db.on('open', () => {
 });
 
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.use(express.static(__dirname + "/node_modules/bootstrap/dist"));
+app.set('trust proxy', 1);
+
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100
+});
+
+app.use("/api/", apiLimiter);
+
+app.use(session({
+    genid: (req) => {
+        return uuidv4();
+    },
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true
+}));
 
 const locationsRouter = require("./routes/locations.js");
 app.use(locationsRouter.router);
@@ -36,11 +57,13 @@ io.on('connection', (socket) => {
     });
 });
 
-//const fs = require('fs');
-//const home = fs.readFileSync(__dirname + "/public/home/home.html", "utf-8");
-
 app.get("/", (req, res) => {
+    console.log(req.sessionID);
     res.sendFile(__dirname + "/public/home/home.html");
+});
+
+app.get("/login", (req, res) => {
+    res.sendFile(__dirname + "/public/login/login.html");
 });
 
 server.listen(process.env.PORT || 8080, (error) => {
