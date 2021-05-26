@@ -66,6 +66,37 @@ app.get("/login", (req, res) => {
     res.sendFile(__dirname + "/public/login/login.html");
 });
 
+app.get("/authorize", (req, res) => {
+    if(req.session.loggedIn) {
+        res.redirect("/dashboard")
+    } else {
+        res.redirect("/login");
+    }
+});
+
+app.post("/login", 
+    (req, res, next) => {
+        if(req.body.username === process.env.ADMIN_USERNAME && req.body.password === process.env.ADMIN_PASSWORD) {
+            next();
+        } else {
+            res.sendStatus(401);
+        }
+    },
+    (req, res) => {
+        req.session.loggedIn = true;
+        console.log(req.session);
+        res.redirect("/dashboard")
+    }
+);
+
+app.get("/dashboard", (req, res) => {
+    if(req.session.loggedIn) {
+        res.send("DASHBOARD!")
+    } else {
+        res.redirect("/login");
+    }
+});
+
 server.listen(process.env.PORT || 8080, (error) => {
     if(error) {
         console.log(error);
