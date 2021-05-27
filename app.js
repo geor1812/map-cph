@@ -91,7 +91,7 @@ app.post("/login",
 
 app.get("/dashboard", (req, res) => {
     if(req.session.loggedIn) {
-        res.send("DASHBOARD!")
+        res.sendFile(__dirname + "/public/login/dashboard.html");
     } else {
         res.redirect("/login");
     }
