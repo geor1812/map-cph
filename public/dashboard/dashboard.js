@@ -1,8 +1,5 @@
-displayLocations()
-
-async function displayLocations(){
-
-    const response = await fetch("api/locations");
+(async function displayLocations() {
+    const response = await fetch("/api/locations");
     const result = await response.json();
     const locations = result.data;
 
@@ -12,39 +9,39 @@ async function displayLocations(){
         
         const row = document.createElement("tr");
         const name = document.createElement("td");
+        const address = document.createElement("td");
+        const latLong = document.createElement("td");
         const updateDelete = document.createElement("td");
         const updateButton = document.createElement("button");
         const deleteButton = document.createElement("button");
         
-        name.innerHTML = location.name;
-        updateButton.class="btn btn-primary";
-        deleteButton.class="btn btn-primary";
+        name.innerText = location.name;
+        address.innerText = location.address;
+        latLong.innerText = `${location.latLong[0]}, ${location.latLong[1]}`;
+        updateButton.className="update-button mx-2";
+        deleteButton.className="delete-button mx-2";
         updateButton.onclick= () => { return window.location.href=`update/${location._id}`};
-        updateButton.innerText= "Update";
+        //updateButton.innerText= "Update";
         deleteButton.onclick= () => { return deleteLocation(location._id)};
-        deleteButton.innerText = "Delete";
+        //deleteButton.innerText = "Delete";
 
         updateDelete.appendChild(updateButton);
         updateDelete.appendChild(deleteButton);
         row.appendChild(name);
+        row.appendChild(address);
+        row.appendChild(latLong);
         row.appendChild(updateDelete);
         table.appendChild(row);
-        
+    });
 
-
-    })
-
-}
+})();
 
 async function deleteLocation(id){
     try {
         const otherParams = {
             method: "DELETE"
         };
-
-        const response = await fetch(`/api/locations/${id}`, otherParams);
-        const result = await response.json();
-        console.log(result);
+        await fetch(`/api/locations/${id}`, otherParams);
     } catch (error) {
         console.log(error);
     }

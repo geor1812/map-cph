@@ -90,11 +90,15 @@ app.post("/login",
 );
 
 app.get("/dashboard", (req, res) => {
+    /* Commenting this for now because it's annoying to log in everytime there's a change
     if(req.session.loggedIn) {
-        res.sendFile(__dirname + "/public/login/dashboard.html");
+        res.sendFile(__dirname + "/public/dashboard/dashboard.html");
     } else {
         res.redirect("/login");
     }
+    */
+
+    res.sendFile(__dirname + "/public/dashboard/dashboard.html");
 });
 
 server.listen(process.env.PORT || 8080, (error) => {

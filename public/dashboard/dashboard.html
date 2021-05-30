@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script language="javascript" src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/dashboard/dashboard.css"/>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row bg-info">
+            <div class="col-3">
+                <h3 class="mt-2">CPH Map Dashboard</h3>
+            </div>
+            <div class="col">
+                <a class="nav-link text-dark mt-2" href="/">Back to homepage</a>
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text" id="searchTerm" class="form-control mt-2" name="searchTerm">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-danger mb-2 mt-2">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <div class="mt-5">
+                    <a href="/dashboard/create">
+                        <button type="button" class="btn btn-danger">
+                            Add a new location
+                        </button>
+                    </a>
+                </div>  
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table w-75 mt-3 mb-5 mx-auto table-striped">
+                    <thead class="bg-info">
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Coordinates</th>
+                        <th scope="col">Edit/Delete</th>
+                    </thead>
+                    <tbody id= "tbody"></tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+    <script src="/dashboard/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+.update-button {
+    width: 35px;
+    height: 35px;
+    background-image: url("/dashboard/icons/editIcon.png");
+    border: hidden;
+}
+
+.delete-button {
+    width: 35px;
+    height: 35px;
+    background-image: url("/dashboard/icons/deleteIcon.png");
+    border: hidden;
+}
