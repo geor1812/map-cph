@@ -20,7 +20,7 @@
         latLong.innerText = `${location.latLong[0]}, ${location.latLong[1]}`;
         updateButton.className="update-button mx-2";
         deleteButton.className="delete-button mx-2";
-        updateButton.onclick= () => { return window.location.href=`update/${location._id}`};
+        updateButton.onclick= () => { return window.location.href=`edit/${location._id}`};
         //updateButton.innerText= "Update";
         deleteButton.onclick= () => { return deleteLocation(location._id)};
         //deleteButton.innerText = "Delete";

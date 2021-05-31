@@ -84,7 +84,6 @@ app.post("/login",
     },
     (req, res) => {
         req.session.loggedIn = true;
-        console.log(req.session);
         res.redirect("/dashboard")
     }
 );
@@ -103,6 +102,10 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/dashboard/add", (req, res) => {
     res.sendFile(__dirname + "/public/add/add.html");
+});
+
+app.get("/dashboard/edit/:id", (req, res) => {
+    res.sendFile(__dirname + "/public/edit/edit.html");
 });
 
 server.listen(process.env.PORT || 8080, (error) => {
