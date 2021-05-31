@@ -101,6 +101,10 @@ app.get("/dashboard", (req, res) => {
     res.sendFile(__dirname + "/public/dashboard/dashboard.html");
 });
 
+app.get("/dashboard/add", (req, res) => {
+    res.sendFile(__dirname + "/public/add/add.html");
+});
+
 server.listen(process.env.PORT || 8080, (error) => {
     if(error) {
         console.log(error);
