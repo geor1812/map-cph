@@ -7,6 +7,7 @@
     <title>Update a location</title>
     <script language="javascript" src="/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/edit/edit.css">
 </head>
 <body>
     <div class="container-fluid">
@@ -35,7 +36,7 @@
                     <form autocomplete="off" class="w-50 mx-auto">
                         <div class="form-group mt-3">
                           <label for="name">Name</label>
-                          <input autocomplete="off" type="text" class="form-control" id="name" name="name">
+                          <input autocomplete="off" type="text" required class="form-control" id="name" name="name">
                         </div>
                         
                         <div class="form group mt-3">
@@ -45,33 +46,33 @@
                         </div>
 
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="type" id="type1" value="drinks">
+                            <input class="form-check-input" type="radio" name="type" id="drinks" value="drinks" required>
                             <label class="form-check-label" for="type1"><img src="/home/icons/drinksIcon.png"></label>
                         </div>
                         <div class="form-check form-check-inline mx-3">
-                            <input class="form-check-input" type="radio" name="type" id="type2" value="venues">
+                            <input class="form-check-input" type="radio" name="type" id="venues" value="venues">
                             <label class="form-check-label" for="type2"><img src="/home/icons/venuesIcon.png"></label>
                         </div>
                         <div class="form-check form-check-inline mx-3">
-                            <input class="form-check-input" type="radio" name="type" id="type3" value="parks">
+                            <input class="form-check-input" type="radio" name="type" id="parks" value="parks">
                             <label class="form-check-label" for="type3"><img src="/home/icons/parksIcon.png"></label>
                         </div>
                         <div class="form-check form-check-inline mx-3">
-                            <input class="form-check-input" type="radio" name="type" id="type4" value="cultural">
+                            <input class="form-check-input" type="radio" name="type" id="cultural" value="cultural">
                             <label class="form-check-label" for="type4"><img src="/home/icons/culturalIcon.png"></label>
                         </div>
                         <div class="form-check form-check-inline mx-3">
-                            <input class="form-check-input" type="radio" name="type" id="type5" value="hotspots">
+                            <input class="form-check-input" type="radio" name="type" id="hotspots" value="hotspots">
                             <label class="form-check-label" for="type5"><img src="/home/icons/hotspotsIcon.png"></label>
                         </div>
 
                         <div class="form-group mt-3">
                             <label for="lat">Latitude</label>
-                            <input autocomplete="off" step="any" type="number" class="form-control" id="lat" name="lat">
+                            <input autocomplete="off" step="any" type="number" class="form-control" id="lat" name="lat" required>
                         </div>
                         <div class="form-group mt-3">
                             <label for="long">Longitude</label>
-                            <input autocomplete="off" step="any" type="number" class="form-control" id="long" name="long">
+                            <input autocomplete="off" step="any" type="number" class="form-control" id="long" name="long" required>
                         </div>
 
                         <div class="form-group">
@@ -79,15 +80,26 @@
                             <textarea class="form-control" id="description" name="description" rows="5"></textarea>
                           </div>
 
-                        <div class="col text-center">
-                            <button type="submit" class="btn btn-info btn-lg my-3">Confirm changes</button>
-                        </div>      
+                            
                     </form>
+                    <hr class="my-3">
+                    <!-- Putting comments in a form is pretty stupid but works  -->
+                    <form class="mx-auto w-50">
+
+                        <p class="lead">Comments</p>
+                        <div id="commentsDiv">
+                            
+                            
+                        </div>
+                    </form>
+                    <div class="col text-center">
+                        <button id="confirm" type="submit" class="btn btn-info btn-lg my-3">Confirm changes</button>
+                    </div>  
                 </div>
             </div>
             <div class="col-2"></div>  
         </div>
     </div>
-    
+    <script src="/edit/edit.js"></script>
 </body>
 </html>

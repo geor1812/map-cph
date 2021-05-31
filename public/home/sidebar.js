@@ -113,7 +113,7 @@ async function displayLocation(id) {
         nameDateDiv.appendChild(date);
         listGroupItem.appendChild(content);
         commRow2.appendChild(listGroup);
-    })
+    });
     
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -175,7 +175,7 @@ async function updateComments(id, comments) {
 
         const response = await fetch(`/api/locations/${id}`, otherParams);
         const result = await response.json();
-        console.log(result);
+        console.log(result.data);
     } catch (error) {
         console.log(error);
     }

@@ -1,0 +1,10 @@
+.delete-button {
+    width: 35px;
+    height: 35px;
+    background-image: url("/dashboard/icons/deleteIcon.png");
+    border: hidden;
+}
+
+.bg-disabled {
+    background-color: #ffa29c;
+}
