@@ -88,24 +88,28 @@ app.post("/login",
     }
 );
 
-app.get("/dashboard", (req, res) => {
-    /* Commenting this for now because it's annoying to log in everytime there's a change
+app.get("/dashboard", (req, res) => { 
     if(req.session.loggedIn) {
         res.sendFile(__dirname + "/public/dashboard/dashboard.html");
     } else {
         res.redirect("/login");
     }
-    */
-
-    res.sendFile(__dirname + "/public/dashboard/dashboard.html");
 });
 
 app.get("/dashboard/add", (req, res) => {
-    res.sendFile(__dirname + "/public/add/add.html");
+    if(req.session.loggedIn) {
+        res.sendFile(__dirname + "/public/add/add.html");
+    } else {
+        res.redirect("/login");
+    }
 });
 
 app.get("/dashboard/edit/:id", (req, res) => {
-    res.sendFile(__dirname + "/public/edit/edit.html");
+    if(req.session.loggedIn) {
+        res.sendFile(__dirname + "/public/edit/edit.html");
+    } else {
+        res.redirect("/login");
+    }
 });
 
 server.listen(process.env.PORT || 8080, (error) => {
