@@ -152,6 +152,6 @@ map.on("click", (e) => {
     marker = L.marker(coordinates).addTo(map);
     latInput.value = coordinates.lat;
     longInput.value = coordinates.lng;
-})
+});
 
 

@@ -19,6 +19,7 @@ document.getElementById("confirm").addEventListener("click", (e) => {
     }
 
     createLocation(newLocation);
+    window.location = "/dashboard";
 });
 
 async function createLocation(location) {
@@ -39,3 +40,26 @@ async function createLocation(location) {
         console.log(error);
     }
 }
+
+const map = L.map("map").setView([55.676, 12.568], 13);
+let marker;
+
+L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: "mapbox/streets-v11",
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: "pk.eyJ1IjoiZ2VvcjE4MTIiLCJhIjoiY2tvdTl2cGV5MGpjdTJwb2Fpa3QydjhpdCJ9.vsIf2CpJ_gXMFp_n4EHNzw"
+}).addTo(map);
+
+map.on("click", (e) => {
+    const coordinates = e.latlng;
+    console.log(coordinates);
+    if(marker) {
+        map.removeLayer(marker);
+    }
+    marker = L.marker(coordinates).addTo(map);
+    latInput.value = coordinates.lat;
+    longInput.value = coordinates.lng;
+});

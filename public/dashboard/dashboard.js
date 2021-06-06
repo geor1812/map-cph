@@ -53,6 +53,7 @@ async function deleteLocation(id){
     } catch (error) {
         console.log(error);
     }
+    location.reload();
 }
 
 document.getElementById("searchButton").addEventListener("click", (e) => {
