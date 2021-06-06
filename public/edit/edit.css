@@ -8,3 +8,8 @@
 .bg-disabled {
     background-color: #ffa29c;
 }
+
+#map {
+    height: 85vh;
+    width: 38vw;
+}

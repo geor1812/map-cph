@@ -3,6 +3,17 @@ const id = url.substring(url.lastIndexOf('/') + 1);
 
 let currentLocation;
 
+const map = L.map("map").setView([55.676, 12.568], 13);
+L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: "mapbox/streets-v11",
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: "pk.eyJ1IjoiZ2VvcjE4MTIiLCJhIjoiY2tvdTl2cGV5MGpjdTJwb2Fpa3QydjhpdCJ9.vsIf2CpJ_gXMFp_n4EHNzw"
+}).addTo(map);
+let marker;
+
 const nameInput = document.getElementById("name");
 const addressInput = document.getElementById("address");
 const typeRadio = document.getElementsByName("type");
@@ -15,6 +26,8 @@ const descriptionTextarea = document.getElementById("description");
     const result = await response.json();
     const location = result.data;
     currentLocation = location;
+    marker = L.marker(location.latLong).addTo(map);
+    map.setView(location.latLong, 13);
 
     nameInput.value = location.name;
     if(location.address) {
@@ -85,10 +98,14 @@ document.getElementById("confirm").addEventListener("click", () => {
     updatedLocation.name = nameInput.value;
     if(addressInput.value) {
         updatedLocation.address = addressInput.value;
+    } else {
+        updatedLocation.address = "";
     }
 
     if(descriptionTextarea.value) {
         updatedLocation.description = descriptionTextarea.value;
+    } else {
+        updatedLocation.description = "";
     }
 
     updatedLocation.latLong = [latInput.value, longInput.value];
@@ -128,3 +145,13 @@ async function updateLocation(id, location) {
         console.log(error);
     }
 }
+
+map.on("click", (e) => {
+    const coordinates = e.latlng;
+    map.removeLayer(marker);
+    marker = L.marker(coordinates).addTo(map);
+    latInput.value = coordinates.lat;
+    longInput.value = coordinates.lng;
+})
+
+
