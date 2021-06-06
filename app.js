@@ -88,28 +88,37 @@ app.post("/login",
     }
 );
 
-app.get("/dashboard", (req, res) => { 
+app.get("/dashboard", (req, res) => {
+    res.sendFile(__dirname + "/public/dashboard/dashboard.html");
+    /*
     if(req.session.loggedIn) {
         res.sendFile(__dirname + "/public/dashboard/dashboard.html");
     } else {
         res.redirect("/login");
     }
+    */
 });
 
 app.get("/dashboard/add", (req, res) => {
+    res.sendFile(__dirname + "/public/add/add.html");
+    /*
     if(req.session.loggedIn) {
         res.sendFile(__dirname + "/public/add/add.html");
     } else {
         res.redirect("/login");
     }
+    */
 });
 
 app.get("/dashboard/edit/:id", (req, res) => {
+    res.sendFile(__dirname + "/public/edit/edit.html");
+    /*
     if(req.session.loggedIn) {
         res.sendFile(__dirname + "/public/edit/edit.html");
     } else {
         res.redirect("/login");
     }
+    */
 });
 
 server.listen(process.env.PORT || 8080, (error) => {

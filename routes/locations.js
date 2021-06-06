@@ -4,7 +4,17 @@ const Location = require('../models/location.js');
 //Get all
 router.get("/api/locations", async (req, res) => {
     try {
-        const locations = await Location.find();
+        let locations;
+        if(req.query.searchTerm) {
+            locations = await Location.find(
+                {$or: [
+                    {name: {$regex: req.query.searchTerm, $options: "i"}},
+                    {address: {$regex: req.query.searchTerm, $options: "i"}}
+                ]}
+            )
+        } else {
+            locations = await Location.find();
+        }
         res.send({data: locations});
     } catch (error) {
         res.status(500).send({error: error.message});

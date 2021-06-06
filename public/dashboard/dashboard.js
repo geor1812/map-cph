@@ -1,5 +1,11 @@
-(async function displayLocations() {
-    const response = await fetch("/api/locations");
+async function displayLocations(searchTerm) {
+    let response;
+    console.log(searchTerm);
+    if(searchTerm) {
+        response = await fetch(`/api/locations?searchTerm=${searchTerm}`);
+    } else {
+        response = await fetch("/api/locations");
+    }
     const result = await response.json();
     const locations = result.data;
 
@@ -34,7 +40,9 @@
         table.appendChild(row);
     });
 
-})();
+}
+
+displayLocations();
 
 async function deleteLocation(id){
     try {
@@ -46,5 +54,13 @@ async function deleteLocation(id){
         console.log(error);
     }
 }
+
+document.getElementById("searchButton").addEventListener("click", (e) => {
+    e.preventDefault();
+    const searchTerm = document.getElementById("searchTerm").value;
+    document.getElementById("tbody").innerHTML = "";
+    displayLocations(searchTerm);
+});
+
 
 
