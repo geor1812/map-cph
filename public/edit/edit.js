@@ -94,37 +94,39 @@ const descriptionTextarea = document.getElementById("description");
 })();
 
 document.getElementById("confirm").addEventListener("click", () => {
-    let updatedLocation = {};
-    updatedLocation.name = nameInput.value;
-    if(addressInput.value) {
-        updatedLocation.address = addressInput.value;
-    } else {
-        updatedLocation.address = "";
-    }
-
-    if(descriptionTextarea.value) {
-        updatedLocation.description = descriptionTextarea.value;
-    } else {
-        updatedLocation.description = "";
-    }
-
-    updatedLocation.latLong = [latInput.value, longInput.value];
-    for(let i = 0; i < typeRadio.length; i++) {
-        if(typeRadio[i].checked) {
-            updatedLocation.type = typeRadio[i].value;
+    if(confirm("Are you sure of the changes?")) {
+        let updatedLocation = {};
+        updatedLocation.name = nameInput.value;
+        if(addressInput.value) {
+            updatedLocation.address = addressInput.value;
+        } else {
+            updatedLocation.address = "";
         }
-    }
 
-    updatedLocation.comments = currentLocation.comments.filter((comment) => {
-        if("delete" in comment && comment.delete === true) {
-            return false;
+        if(descriptionTextarea.value) {
+            updatedLocation.description = descriptionTextarea.value;
+        } else {
+            updatedLocation.description = "";
         }
-        return true;
-    });
 
-    updateLocation(id, updatedLocation);
-    //refresh window
-    location.reload();
+        updatedLocation.latLong = [latInput.value, longInput.value];
+        for(let i = 0; i < typeRadio.length; i++) {
+            if(typeRadio[i].checked) {
+                updatedLocation.type = typeRadio[i].value;
+            }
+        }
+
+        updatedLocation.comments = currentLocation.comments.filter((comment) => {
+            if("delete" in comment && comment.delete === true) {
+                return false;
+            }
+            return true;
+        });
+
+        updateLocation(id, updatedLocation);
+        //refresh window
+        location.reload();
+    }
 });
 
 async function updateLocation(id, location) {

@@ -28,7 +28,11 @@ async function displayLocations(searchTerm) {
         deleteButton.className="delete-button mx-2";
         updateButton.onclick= () => { return window.location.href=`edit/${location._id}`};
         //updateButton.innerText= "Update";
-        deleteButton.onclick= () => { return deleteLocation(location._id)};
+        deleteButton.addEventListener("click", () => {
+            if(confirm("Are you sure you want to delete this location?")) {
+                deleteLocation(location._id);
+            }
+        });
         //deleteButton.innerText = "Delete";
 
         updateDelete.appendChild(updateButton);

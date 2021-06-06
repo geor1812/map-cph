@@ -5,21 +5,22 @@ const latInput = document.getElementById("lat");
 const longInput = document.getElementById("long");
 const descriptionTextarea = document.getElementById("description");
 
-document.getElementById("confirm").addEventListener("click", (e) => {
-    
-    let newLocation = {};
-    newLocation.name = nameInput.value;
-    newLocation.address = addressInput.value;
-    newLocation.description = descriptionTextarea.value;
-    newLocation.latLong = [latInput.value, longInput.value];
-    for(let i = 0; i < typeRadio.length; i++) {
-        if(typeRadio[i].checked) {
-            newLocation.type = typeRadio[i].value;
+document.getElementById("addButton").addEventListener("click", (e) => {
+    if(confirm("Do you want to add this location?")) {
+        let newLocation = {};
+        newLocation.name = nameInput.value;
+        newLocation.address = addressInput.value;
+        newLocation.description = descriptionTextarea.value;
+        newLocation.latLong = [latInput.value, longInput.value];
+        for(let i = 0; i < typeRadio.length; i++) {
+            if(typeRadio[i].checked) {
+                newLocation.type = typeRadio[i].value;
+            }
         }
-    }
 
-    createLocation(newLocation);
-    window.location = "/dashboard";
+        createLocation(newLocation);
+        window.location = "/dashboard";
+    }   
 });
 
 async function createLocation(location) {
